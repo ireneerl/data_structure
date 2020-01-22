@@ -32,40 +32,39 @@ void insert(int x){
 
 
 void remove(int x){
-  if(head == NULL){
-    std::cout << "The Link is empty" << '\n';
-    return;
-  }else if(head->val == x){
+
+  node *tmp_walk = head;bool found = false;
+  //searching the element
+  if(head->val == x){
     node *tmp = head;
     head = head->next;
+    head->prev=NULL;
     delete tmp;
-    std::cout << "here" << '\n';
     return;
   }
-
-  node *tmp_walk = head;
-  //searching the element
-  while(tmp_walk != NULL && tmp_walk->val != x){
-  std::cout << "walking" << '\n';
+  while(tmp_walk->next != NULL && tmp_walk->val != x){
     tmp_walk = tmp_walk->next;
+    found=true;
   }
-  if(tmp_walk == NULL){
-    std::cout << "Element not found" << '\n';
-    return;
-  }
-  if(tmp_walk->next != NULL){
-    tmp_walk->prev->next = tmp_walk->next;
-  }else{
+  if(tmp_walk->val == x && tmp_walk->next == NULL){
     tmp_walk->prev->next = NULL;
-
+  }else if(found){
+    tmp_walk->prev->next = tmp_walk->next;
+    tmp_walk->next->prev = tmp_walk->prev;
   }
-  tmp_walk->next->prev = tmp_walk->prev;
   delete tmp_walk;
 }
-  // data->prev->next = data->next;
-  // data->next->prev = data->prev;
-  // delete data;
 
+void reverse(){
+  node *data = head;
+  while(data->next != NULL){
+    data = data ->next; //get to the end of the data
+  }
+  while(data!=NULL){
+    std::cout << data->val << '\n';
+    data = data->prev;
+  }
+}
 
 
 void unique_search(int x){
@@ -120,9 +119,9 @@ int main(){
       case 4:
         print();
         break;
-      // case 5:
-      //   reverse();
-      //   break;
+      case 5:
+        reverse();
+        break;
     }
 
   }while(choice != 0);
